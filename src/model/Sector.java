@@ -4,28 +4,38 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  *
  * @author axel
  */
 public class Sector {
-    private String sentence;
+    private ArrayList<Word> sentence;
+    //private String sentence;
     private float begin;
     private float end;
     private Speaker aSpeaker;
     private String conditions;
     
-    public Sector(String s,float f1, float f2, Speaker spk, String cond ){
-        sentence = s;
+    public Sector(String s,float f1, float f2, Speaker spk, String cond, int offset ){
+//    public Sector(float f1, float f2, Speaker spk, String cond ){
+        sentence = new ArrayList<Word>();
+        String[] arrayTmp = s.split(" ");
+        for(int i = 0; i < arrayTmp.length; i++){
+            sentence.add(new Word(arrayTmp[i],i+offset));
+        }
+//        sentence = s;
         begin = f1;
         end = f2;
         aSpeaker = spk;
         conditions =cond;
     }
     
-    public String toString(){
-        return aSpeaker.toString()+" "+begin+" "+end+" "+sentence+" "+conditions+"\n";
-    }
+//    public String toString(){
+//        return aSpeaker.toString()+" "+begin+" "+end+" "+sentence+" "+conditions+"\n";
+//    }
 
     public Speaker getaSpeaker() {
         return aSpeaker;
@@ -33,6 +43,10 @@ public class Sector {
 
     public void setaSpeaker(Speaker aSpeaker) {
         this.aSpeaker = aSpeaker;
+    }
+    
+    public int getLengh(){
+        return sentence.size();
     }
 
     public float getBegin() {
@@ -60,10 +74,19 @@ public class Sector {
     }
 
     public String getSentence() {
-        return sentence;
+        return sentence.toString();
     }
 
-    public void setSentence(String sentence) {
-        this.sentence = sentence;
+//    public void setSentence(String sentence) {
+//        this.sentence = sentence;
+//    }
+    
+    public String toString(){
+        Iterator <Word> itr = sentence.iterator();
+        StringBuilder str = new StringBuilder();
+        while(itr.hasNext()){
+            str.append(itr.next().toString());
+        }
+        return str.toString();
     }
 }
